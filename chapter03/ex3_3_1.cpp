@@ -2,28 +2,33 @@
 using namespace std;
 
 class Circle {
+private:
+    int radius;
 public:
-    int radius = 10; 
     double getArea();
+    int read_radius();
+    void write_radius(int r);
 };
-
-
+    
 double Circle::getArea() {
     return 3.14 * radius * radius;
-
 }
-
+int Circle::read_radius() {
+    return radius;
+}
+void Circle::write_radius(int r) {
+    radius = r;
+}
 
 int main()
 {
     Circle donut;
-    donut.radius = 1;
+    donut.write_radius(1);
     double area = donut.getArea();
     cout << "donut 면적은 " << area << endl;
-    
+ 
     Circle pizza;
-    pizza.radius = 30;
+    pizza.write_radius(30);
     area = pizza.getArea();
-    cout << "pizza 면적은 " << area << endl;    
-    return 0;
+    cout << "pizza 면적은 " << area << endl;
 }
