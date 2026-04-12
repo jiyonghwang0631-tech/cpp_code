@@ -3,6 +3,29 @@
 
 using namespace std;
 
+
+class cube {
+private:
+    int width;
+    int height;
+    int depth;
+public:
+    cube(int w, int h, int d) : width(w), height(h), depth(d) {}
+    int getVolume() {
+        return width * height * depth;  
+}
+
+    void increase(int w, int h, int d) {
+        width += w;
+        height += h;
+        depth += d;
+    }
+    bool isZero() {
+        return getVolume() == 0;  
+    }
+};
+
+
 int main()
 {
     Cube cube(1, 2, 3);
