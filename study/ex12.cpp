@@ -32,7 +32,7 @@ void CoffeMachine::drinkEspresso()
 void CoffeMachine::drinkAmericano()
 {
     coffe -= 1;
-    water -= 2;
+    water -= 3;
 }
 void CoffeMachine::drinkSugarCoffe()
 {
