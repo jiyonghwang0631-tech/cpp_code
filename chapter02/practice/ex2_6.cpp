@@ -45,33 +45,3 @@ int main()
 // 각 날은 탭 ('\t')으로 분리하여 출력하라
 
 
-// #include <iostream>
-// #include <string>
-// using namespace std;
-
-// int main()
-// {
-//     string day;
-//     string week = "일월화수목금토";
-
-//     cout << "3월 1일은 무슨 요일입니까 >> ";
-//     cin >> day;
-
-//     int start = week.find(day);  // 요일 위치 찾기
-
-//     cout << "\n일\t월\t화\t수\t목\t금\t토\n";
-
-//     for(int i = 0; i < start; i++)
-//         cout << "\t";
-
-//     for(int i = 1; i <= 31; i++)
-//     {
-//         cout << i << "\t";
-//         if((i + start) % 7 == 0)
-//             cout << endl;
-//     }
-
-//     return 0;
-// }
-
-// gpt 버전
