@@ -1,34 +1,55 @@
-//한개의 색을 나타내는 빨강, 초록 파랑 성분을 가진 color 클래스이다.
-//get() 맴버 함수를 구현하라.
-
 #include <iostream>
 using namespace std;
 
-class Color
+class Polygon
 {
-private :
-    int r, g, b;
-public :
-    Color(int r, int g, int b);
-    void get();
+private:
+    int size = 0;
+    int *XList;
+    int *YList;
+public:
+    Polygon(int size);
+    void read();
+    bool get(int n, int &x, int &y);
 };
 
-void Color::get(int &r, int &g, int &b)
+Polygon::Polygon(int size)
 {
-    r = 
-    g = 
-    b = 
+    this->size = size;
+    XList = new int[size];
+    YList = new int[size];
 }
 
+void Polygon::read()
+{
+    cout << "아래에 x, y 값으로 6개의 점을 입력하세요" << endl;
+    for (int i = 0; i < size; i++)
+    {
+        cin >> XList[i] >> YList[i];  // 연속 입력 가능
+    }
+}
 
+bool Polygon::get(int n, int &x, int &y)
+{
+    if (n < 1 || n > size)
+        return false;
+    x = XList[n - 1];
+    y = YList[n - 1];
+    return true;
+}
 
 int main()
 {
-    Color fore(255, 0, 0), back(15, 128, 200);
-    int r, g, b;
-    fore.get(r, g, b);
-    cout << "red = " << r << ", green = " << ", blue = " << b << endl;
-    back.get(r, g, b);
-    cout << "red = " << r << ", green = " << ", blue = " << b << endl;
+    Polygon poly(6);
+    poly.read();
 
+    int n = 3, x, y;
+    bool res = poly.get(n, x, y);
+
+    if (res)
+        cout << n << "번 째 점은 (" << x << "," << y << ")" << endl;
+    else
+        cout << n << "번 째 점은 없습니다." << endl;
+
+    return 0;
 }
