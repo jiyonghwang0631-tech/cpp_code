@@ -7,11 +7,13 @@ private:
     int kick;
     int punch;
 public:
-    Power(int kick = 0, int punch = 0);
     void show();
     Power operator+(Power op2);
-    Power operator* (power op2);
-  
+
+    Power operator+(int op1, Power op2);
+    friend Power operator* (power op2);
+    
+    Power(int kick = 0, int punch = 0);
     ~Power();
 };
 
@@ -46,17 +48,27 @@ Power::~Power()
 {
 }
 
+// 일반 사용 함수
+Power Power::operator+(int op1, Power op2)
+{
+    Power tmp;
+    tmp.kick = op1 + op2.kick;
+    tmp.punch = op1 + op2.punch;
+    return tmp;
+}
+
+
 int main()
 {
     Power a(3,5), b(4,6), c;
     c = a.operator+(b);
+    c = a + b;
     a.show();
     b.show();
     c.show();
     return 0;   
 
-    c = a * b;
+    b = 2 + a;
+
 
 }
-
-
