@@ -18,7 +18,7 @@ insert into Project values('P-09','강원 양양군 설악산',10,'2010','2020',
 insert into Project values('P-10','충북 단양군 소백산',8,'2021','2026','에코마운틴개발');
 
 CREATE TABLE site (
-    Project_ID VARCHAR(10),
+    Project_ID VARCHAR(10) PRIMARY KEY,
     slope VARCHAR(10),
     forest_condition VARCHAR(100),
     FOREIGN KEY (Project_ID) REFERENCES project(Project_ID)
@@ -53,7 +53,7 @@ INSERT INTO equipment VALUES('P-09','굴삭기',4),('P-09','덤프트럭',7);
 INSERT INTO equipment VALUES('P-10','굴삭기',2),('P-10','덤프트럭',5);
 
 CREATE TABLE permit (
-    Project_ID VARCHAR(10),
+    Project_ID VARCHAR(10) PRIMARY KEY,
     start_date INT,
     end_date INT,
     plan VARCHAR(50),
@@ -119,11 +119,14 @@ SELECT
     e.noise AS '소음 관리',
     r.restoration_method AS '복구 방법',
     eq.equip AS '장비',
-    eq.car AS '수량'
+    eq.car AS '수량',
+    s.slope AS '경사',
+    s.forest_condition AS '상태'
 FROM project p
 JOIN permit pe ON p.project_id = pe.project_id
 JOIN environment e ON p.project_id = e.project_id
 JOIN restoration r ON p.project_id = r.project_id
+JOIN site s ON p.project_id = r.project_id
 LEFT JOIN equipment eq ON p.project_id = eq.project_id
 ORDER BY p.project_id, eq.equip;
 
@@ -138,25 +141,33 @@ SELECT
     e.dust AS '먼지 관리',
     e.noise AS '소음 관리',
     r.restoration_method AS '복구 방법',
-
-    GROUP_CONCAT(eq.equip ORDER BY eq.equip SEPARATOR ', ') AS '장비',
-    GROUP_CONCAT(eq.car ORDER BY eq.equip SEPARATOR ', ') AS '수량'
-
+    eq.equip_list AS '장비',
+    eq.car_list AS '수량',
+    s.slope AS '경사',
+    s.forest_condition AS '상태'
 FROM project p
-JOIN permit pe ON p.project_id = pe.project_id
-JOIN environment e ON p.project_id = e.project_id
-JOIN restoration r ON p.project_id = r.project_id
-LEFT JOIN equipment eq ON p.project_id = eq.project_id
 
-GROUP BY
-    p.project_id,
-    p.location,
-    pe.start_date,
-    pe.end_date,
-    pe.plan,
-    e.dust,
-    e.noise,
-    r.restoration_method
+JOIN permit pe 
+    ON p.project_id = pe.project_id
+
+JOIN environment e 
+    ON p.project_id = e.project_id
+
+JOIN restoration r 
+    ON p.project_id = r.project_id
+
+JOIN site s 
+    ON p.project_id = s.project_id
+
+LEFT JOIN (
+    SELECT 
+        project_id,
+        GROUP_CONCAT(equip SEPARATOR ', ') AS equip_list,
+        GROUP_CONCAT(car SEPARATOR ', ') AS car_list
+    FROM equipment
+    GROUP BY project_id
+) eq
+    ON p.project_id = eq.project_id
 
 ORDER BY p.project_id;
 
